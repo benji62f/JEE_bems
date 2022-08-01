@@ -9,4 +9,7 @@ module.exports = {
     "@vue/eslint-config-typescript/recommended",
     "@vue/eslint-config-prettier",
   ],
+  rules: {
+    "vue/no-v-text-v-html-on-component": "off",
+  },
 };
