@@ -29,8 +29,6 @@ public class EventController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         Date startDate = dateFormat.parse(start);
         Date endDate = dateFormat.parse(end);
-        System.out.println(startDate);
-        System.out.println(endDate);
         for (EventEntity eventEntity : eventService.findByStartDateOrEndDateBetween(startDate, endDate)) {
             eventModels.add(new EventModel(eventEntity));
         }

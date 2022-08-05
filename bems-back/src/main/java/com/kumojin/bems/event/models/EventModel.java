@@ -13,7 +13,6 @@ public class EventModel {
     @NotBlank(message = "label is mandatory")
     private final String label;
 
-    @NotBlank(message = "description is mandatory")
     private final String description;
 
     @NotNull(message = "startDate is mandatory")

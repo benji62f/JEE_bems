@@ -173,10 +173,11 @@ export default {
                 <v-icon class="mr-2">mdi-alarm</v-icon>
                 <span>{{ selectedEvent.start | formatDate }}</span> to
                 <span>{{ selectedEvent.end | formatDate }}</span>
-                <br />
-                <br />
-                <v-icon class="mr-2">mdi-format-list-bulleted</v-icon>
-                <span>{{ selectedEvent.details }}</span>
+                <div v-if="selectedEvent.details">
+                  <br />
+                  <v-icon class="mr-2">mdi-format-list-bulleted</v-icon>
+                  <span>{{ selectedEvent.details }}</span>
+                </div>
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="secondary" @click="selectedOpen = false">
