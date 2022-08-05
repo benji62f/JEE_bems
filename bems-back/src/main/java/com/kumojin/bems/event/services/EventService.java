@@ -5,6 +5,7 @@ import com.kumojin.bems.event.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,8 @@ public class EventService {
         return eventRepository.findById(id);
     }
 
-    public List<EventEntity> findAll() {
-        return eventRepository.findAll();
+    public List<EventEntity> findByStartDateOrEndDateBetween(Date rangeStart, Date rangeEnd) {
+        return eventRepository.findByStartDateBetweenOrEndDateBetween(rangeStart, rangeEnd, rangeStart, rangeEnd);
     }
 
     public void create(EventEntity eventEntity) {

@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -21,9 +24,14 @@ public class EventController {
     private EventService eventService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<List<EventModel>> getEvents() {
+    public ResponseEntity<List<EventModel>> getEvents(@RequestParam("start") String start, @RequestParam("end") String end) throws ParseException {
         List<EventModel> eventModels = new ArrayList<>();
-        for (EventEntity eventEntity : eventService.findAll()) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date startDate = dateFormat.parse(start);
+        Date endDate = dateFormat.parse(end);
+        System.out.println(startDate);
+        System.out.println(endDate);
+        for (EventEntity eventEntity : eventService.findByStartDateOrEndDateBetween(startDate, endDate)) {
             eventModels.add(new EventModel(eventEntity));
         }
         return new ResponseEntity<>(eventModels, HttpStatus.OK);
