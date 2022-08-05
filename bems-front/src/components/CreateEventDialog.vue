@@ -1,75 +1,94 @@
 <script>
+import axios from "axios";
 import moment from "moment-timezone";
 
 export default {
   data: () => ({
-    dialog: Boolean,
-    todayDate: Date,
+    dialog: false,
+    label: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    disableSubmitBtn: true
   }),
   methods: {
     showDialog() {
       this.dialog = true;
     },
+    onSubmit() {
+      if (!this.label) {
+        return;
+      }
+      axios.post(`${import.meta.env.VITE_BEMS_API_URL}/api/events`, {
+        label: this.label,
+        description: this.description,
+        startDate: new Date(this.startDate),
+        endDate: new Date(this.endDate)
+      });
+    }
   },
   mounted() {
     this.dialog = false;
-    this.todayDate = moment(new Date()).format("YYYY-MM-DDTHH:mm");
-  },
+    this.startDate = this.endDate = moment(new Date()).format("YYYY-MM-DDTHH:mm");
+  }
 };
 </script>
 
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="600px"
-    >
+    <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
-        <v-card-title>
-          <span class="text-h5">Create an event</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Label*"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Description"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <input type="datetime-local" :value="todayDate" />
-              </v-col>
-              <v-col cols="12">
-                <input type="datetime-local" :value="todayDate"/>
-              </v-col>
-            </v-row>
-          </v-container>
-          <small>*indicates required field</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
+        <form @submit="onSubmit">
+          <v-card-title>
+            <span class="text-h5">Create an event</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field label="Label*" required v-model="label"></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-textarea label="Description" rows="3" v-model="description"></v-textarea>
+                </v-col>
+                <v-col cols="12" md="6">
+                  <v-row>
+                    <v-col cols="12">
+                      <label>Start date*</label>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <input type="datetime-local" required v-model="startDate" />
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col cols="12" md="6">
+                  <v-row>
+                    <v-col cols="12">
+                      <label>End date*</label>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <input type="datetime-local" required v-model="endDate" />
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>*indicates required field</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              Close
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="dialog = false" type="submit" :disabled="label === ''">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </form>
       </v-card>
     </v-dialog>
   </v-row>
