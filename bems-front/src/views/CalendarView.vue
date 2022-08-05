@@ -159,10 +159,8 @@ export default {
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-toolbar :color="selectedEvent.color" dark>
-                <v-btn icon>
-                  <v-icon>mdi-heart</v-icon>
-                </v-btn>
-                <v-toolbar-title>{{ selectedEvent.name }}</v-toolbar-title>
+                <v-icon class="mr-4">mdi-calendar</v-icon>
+                <v-toolbar-title class="mr-4">{{ selectedEvent.name }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon>
                   <v-icon>mdi-pencil</v-icon>
