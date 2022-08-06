@@ -125,7 +125,7 @@ export default {
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn outlined class="mr-4" color="grey darken-2" @click="$refs.createEventDialog.showDialog()">
-              Create en event
+              Create an event
             </v-btn>
             <v-menu bottom right>
               <template v-slot:activator="{ on, attrs }">
