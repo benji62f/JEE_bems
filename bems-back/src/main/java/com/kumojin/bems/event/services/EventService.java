@@ -23,7 +23,7 @@ public class EventService {
         return eventRepository.findByStartDateBetweenOrEndDateBetween(rangeStart, rangeEnd, rangeStart, rangeEnd);
     }
 
-    public EventEntity create(EventEntity eventEntity) {
+    public EventEntity save(EventEntity eventEntity) {
         return this.eventRepository.save(eventEntity);
     }
 

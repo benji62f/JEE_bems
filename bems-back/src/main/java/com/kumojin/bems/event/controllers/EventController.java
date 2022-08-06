@@ -56,6 +56,21 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    public ResponseEntity<EventModel> editEvent(@PathVariable("id") Long id, @Valid @RequestBody EventModel eventModel) {
+        EventEntity eventEntity = eventService.findById(id).orElse(null);
+        if (eventEntity != null) {
+            eventEntity.setLabel(eventModel.getLabel());
+            eventEntity.setDescription(eventModel.getDescription());
+            eventEntity.setStartDate(eventModel.getStartDate());
+            eventEntity.setEndDate(eventModel.getEndDate());
+
+            return new ResponseEntity<>(new EventModel(eventService.save(eventEntity)), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {"application/json"})
     public ResponseEntity<EventModel> postEvent(@Valid @RequestBody EventModel eventModel) {
         EventEntity eventEntity = new EventEntity();
@@ -64,7 +79,7 @@ public class EventController {
         eventEntity.setStartDate(eventModel.getStartDate());
         eventEntity.setEndDate(eventModel.getEndDate());
 
-        return new ResponseEntity<>(new EventModel(eventService.create(eventEntity)), HttpStatus.OK);
+        return new ResponseEntity<>(new EventModel(eventService.save(eventEntity)), HttpStatus.OK);
     }
 
 }

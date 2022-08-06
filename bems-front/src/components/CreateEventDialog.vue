@@ -9,36 +9,45 @@ export default {
     description: "",
     startDate: "",
     endDate: "",
+    eventId: "",
     errorOnDateValues: true,
     eventLabelMaxLength: 32,
     eventDescriptionMaxLength: 150,
   }),
   methods: {
-    showDialog() {
+    clearFields() {
+      this.label = "";
+      this.description = "";
+      this.startDate = this.endDate = moment(new Date()).format("YYYY-MM-DDTHH:mm");
+      this.errorOnDateValues = true;
+    },
+    showDialog(event) {
+      this.clearFields();
+      if (event) {
+        this.label = event.name;
+        this.description = event.details;
+        this.startDate = moment(new Date(event.start)).format("YYYY-MM-DDTHH:mm");
+        this.endDate = moment(new Date(event.end)).format("YYYY-MM-DDTHH:mm");
+        this.errorOnDateValues = false;
+      }
+      this.eventId = event ? event.id : "";
       this.dialog = true;
     },
     onSubmit() {
       if (!this.label) {
         return;
       }
+      const data = {
+        label: this.label,
+        description: this.description,
+        startDate: new Date(this.startDate),
+        endDate: new Date(this.endDate),
+      };
       axios
-        .post(`${import.meta.env.VITE_BEMS_API_URL}/api/events`, {
-          label: this.label,
-          description: this.description,
-          startDate: new Date(this.startDate),
-          endDate: new Date(this.endDate),
-        })
+        .post(`${import.meta.env.VITE_BEMS_API_URL}/api/events${this.eventId ? `/${this.eventId}/edit` : ""}`, data)
         .then((response) => {
           if (response.status === 200) {
-            this.$parent.events.push({
-              id: response.data.id,
-              name: response.data.label,
-              details: response.data.description,
-              start: new Date(response.data.startDate),
-              end: new Date(response.data.endDate),
-              color: this.$parent.colors[this.$parent.rnd(0, this.$parent.colors.length - 1)],
-              timed: true,
-            });
+            this.putEventInCalendar(response.data);
           }
         });
     },
@@ -47,6 +56,20 @@ export default {
       const endValue = new Date(document.getElementById("endDateInput").value);
       this.errorOnDateValues = endValue <= startValue;
     },
+    putEventInCalendar(event) {
+      this.$parent.events = this.$parent.events.filter(function (value, index, arr) {
+        return value.id !== event.id;
+      });
+      this.$parent.events.push({
+        id: event.id,
+        name: event.label,
+        details: event.description,
+        start: new Date(event.startDate),
+        end: new Date(event.endDate),
+        color: this.$parent.colors[this.$parent.rnd(0, this.$parent.colors.length - 1)],
+        timed: true,
+      });
+    }
   },
   mounted() {
     this.dialog = false;
@@ -103,6 +126,7 @@ export default {
                 <v-col cols="12">
                   <small v-if="errorOnDateValues" style="color: red">End date must be after start date.</small>
                 </v-col>
+                <input type="hidden" v-model="eventId" />
               </v-row>
             </v-container>
             <small>*indicates required field</small>

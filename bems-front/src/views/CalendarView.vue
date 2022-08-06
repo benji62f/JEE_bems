@@ -175,7 +175,7 @@ export default {
                 <v-icon class="mr-4">mdi-calendar</v-icon>
                 <v-toolbar-title class="mr-4">{{ selectedEvent.name }}</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>
+                <v-btn icon @click="$refs.createEventDialog.showDialog(selectedEvent)">
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
                 <v-btn icon @click="deleteEvent(selectedEvent.id)">
