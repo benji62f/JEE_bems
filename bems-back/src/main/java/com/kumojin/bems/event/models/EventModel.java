@@ -15,6 +15,7 @@ public class EventModel {
     @Size(max = 32, message = "{validation.name.size.too_long}")
     private final String label;
 
+    @Size(max = 150, message = "{validation.name.size.too_long}")
     private final String description;
 
     @NotNull(message = "startDate is mandatory")
