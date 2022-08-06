@@ -17,15 +17,6 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    colors: [
-      "blue",
-      "indigo",
-      "deep-purple",
-      "cyan",
-      "green",
-      "orange",
-      "grey darken-1"
-    ],
   }),
   mounted() {
     this.$refs.calendar.checkChange();
@@ -79,8 +70,8 @@ export default {
               details: event.description,
               start: new Date(event.startDate),
               end: new Date(event.endDate),
-              color: this.colors[this.rnd(0, this.colors.length - 1)],
-              timed: true
+              color: event.color,
+              timed: true,
             });
           });
           this.events = events;
@@ -98,10 +89,7 @@ export default {
           }
         });
     },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a;
-    }
-  }
+  },
 };
 </script>
 

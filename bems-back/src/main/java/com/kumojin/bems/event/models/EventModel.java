@@ -24,12 +24,16 @@ public class EventModel {
     @NotNull(message = "endDate is mandatory")
     private final Date endDate;
 
-    public EventModel(Long id, String label, String description, Date startDate, Date endDate) {
+    @NotBlank(message = "color is mandatory")
+    private final String color;
+
+    public EventModel(Long id, String label, String description, Date startDate, Date endDate, String color) {
         this.id = id;
         this.label = label;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.color = color;
     }
 
     public EventModel(EventEntity eventEntity) {
@@ -38,6 +42,7 @@ public class EventModel {
         this.description = eventEntity.getDescription();
         this.startDate = eventEntity.getStartDate();
         this.endDate = eventEntity.getEndDate();
+        this.color = eventEntity.getColor();
     }
 
     public Long getId() {
@@ -58,5 +63,9 @@ public class EventModel {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public String getColor() {
+        return color;
     }
 }

@@ -64,6 +64,7 @@ public class EventController {
             eventEntity.setDescription(eventModel.getDescription());
             eventEntity.setStartDate(eventModel.getStartDate());
             eventEntity.setEndDate(eventModel.getEndDate());
+            eventEntity.setColor(eventModel.getColor());
 
             return new ResponseEntity<>(new EventModel(eventService.save(eventEntity)), HttpStatus.OK);
         }
@@ -78,6 +79,7 @@ public class EventController {
         eventEntity.setLabel(eventModel.getLabel());
         eventEntity.setStartDate(eventModel.getStartDate());
         eventEntity.setEndDate(eventModel.getEndDate());
+        eventEntity.setColor(eventModel.getColor());
 
         return new ResponseEntity<>(new EventModel(eventService.save(eventEntity)), HttpStatus.OK);
     }

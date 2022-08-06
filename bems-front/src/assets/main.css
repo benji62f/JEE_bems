@@ -105,3 +105,14 @@ a,
   color: #5fe2dc;
   border: 1px solid #5fe2dc;
 }
+
+.btn-color-selected::after {
+  content: "X";
+  font-weight: bold;
+  font-size: 16px;
+  position: relative;
+  right: 35%;
+  border: none;
+  background: transparent;
+  box-shadow: none !important;
+}

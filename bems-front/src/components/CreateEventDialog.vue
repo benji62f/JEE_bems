@@ -10,9 +10,19 @@ export default {
     startDate: "",
     endDate: "",
     eventId: "",
+    eventColor: "grey darken-1",
     errorOnDateValues: true,
     eventLabelMaxLength: 32,
     eventDescriptionMaxLength: 150,
+    colors: [
+      "blue",
+      "indigo",
+      "deep-purple",
+      "cyan",
+      "green",
+      "orange",
+      "grey darken-1",
+    ],
   }),
   methods: {
     clearFields() {
@@ -20,6 +30,11 @@ export default {
       this.description = "";
       this.startDate = this.endDate = moment(new Date()).format("YYYY-MM-DDTHH:mm");
       this.errorOnDateValues = true;
+      const colorBtns = document.getElementsByClassName("btn-color");
+      for (let i = 0; i < colorBtns.length; i++) {
+        colorBtns[i].classList.remove("btn-color-selected");
+      }
+      this.eventColor = "grey darken-1";
     },
     showDialog(event) {
       this.clearFields();
@@ -29,6 +44,7 @@ export default {
         this.startDate = moment(new Date(event.start)).format("YYYY-MM-DDTHH:mm");
         this.endDate = moment(new Date(event.end)).format("YYYY-MM-DDTHH:mm");
         this.errorOnDateValues = false;
+        this.eventColor = event.color;
       }
       this.eventId = event ? event.id : "";
       this.dialog = true;
@@ -42,6 +58,7 @@ export default {
         description: this.description,
         startDate: new Date(this.startDate),
         endDate: new Date(this.endDate),
+        color: this.eventColor,
       };
       axios
         .post(`${import.meta.env.VITE_BEMS_API_URL}/api/events${this.eventId ? `/${this.eventId}/edit` : ""}`, data)
@@ -66,9 +83,17 @@ export default {
         details: event.description,
         start: new Date(event.startDate),
         end: new Date(event.endDate),
-        color: this.$parent.colors[this.$parent.rnd(0, this.$parent.colors.length - 1)],
+        color: event.color,
         timed: true,
       });
+    },
+    selectEventColor(color) {
+      this.eventColor = color;
+      const colorBtns = document.getElementsByClassName("btn-color");
+      for (let i = 0; i < colorBtns.length; i++) {
+        colorBtns[i].classList.remove("btn-color-selected");
+      }
+      document.getElementById("btn-color-" + color).classList.add("btn-color-selected");
     }
   },
   mounted() {
@@ -78,7 +103,7 @@ export default {
     if (eventLabelMaxLength) this.eventLabelMaxLength = eventLabelMaxLength;
     const eventDescriptionMaxLength = import.meta.env.VITE_EVENT_DESCRIPTION_MAX_LENGTH;
     if (eventDescriptionMaxLength) this.eventDescriptionMaxLength = eventDescriptionMaxLength;
-  }
+  },
 };
 </script>
 
@@ -126,9 +151,30 @@ export default {
                 <v-col cols="12">
                   <small v-if="errorOnDateValues" style="color: red">End date must be after start date.</small>
                 </v-col>
+                <v-col cols="12">
+                  <v-row>
+                    <v-col cols="12">
+                      <label>Event color</label>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-btn
+                      class="mx-2 btn-color"
+                      fab
+                      dark
+                      small
+                      v-for="color in colors"
+                      v-bind:key="color"
+                      :color="color"
+                      @click="selectEventColor(color)"
+                      :id="'btn-color-' + color"
+                    />
+                  </v-row>
+                </v-col>
                 <input type="hidden" v-model="eventId" />
               </v-row>
             </v-container>
+            <br />
             <small>*indicates required field</small>
           </v-card-text>
           <v-card-actions>

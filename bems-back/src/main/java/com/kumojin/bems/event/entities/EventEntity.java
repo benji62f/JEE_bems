@@ -20,6 +20,8 @@ public class EventEntity {
 
     private Date endDate;
 
+    private String color;
+
     public Long getId() {
         return id;
     }
@@ -54,5 +56,17 @@ public class EventEntity {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
