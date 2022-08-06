@@ -21,13 +21,27 @@ export default {
       if (!this.label) {
         return;
       }
-      axios.post(`${import.meta.env.VITE_BEMS_API_URL}/api/events`, {
-        label: this.label,
-        description: this.description,
-        startDate: new Date(this.startDate),
-        endDate: new Date(this.endDate)
-      });
-    }
+      axios
+        .post(`${import.meta.env.VITE_BEMS_API_URL}/api/events`, {
+          label: this.label,
+          description: this.description,
+          startDate: new Date(this.startDate),
+          endDate: new Date(this.endDate),
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            this.$parent.events.push({
+              id: response.data.id,
+              name: response.data.label,
+              details: response.data.details,
+              start: new Date(response.data.startDate),
+              end: new Date(response.data.endDate),
+              color: this.$parent.colors[this.$parent.rnd(0, this.$parent.colors.length - 1)],
+              timed: true,
+            });
+          }
+        });
+    },
   },
   mounted() {
     this.dialog = false;
@@ -44,7 +58,7 @@ export default {
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
-        <form @submit="onSubmit">
+        <form @submit.prevent="onSubmit">
           <v-card-title>
             <span class="text-h5">Create an event</span>
           </v-card-title>

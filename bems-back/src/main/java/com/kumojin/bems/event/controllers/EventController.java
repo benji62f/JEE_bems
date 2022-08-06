@@ -57,13 +57,14 @@ public class EventController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {"application/json"})
-    public void postEvent(@Valid @RequestBody EventModel eventModel) {
+    public ResponseEntity<EventModel> postEvent(@Valid @RequestBody EventModel eventModel) {
         EventEntity eventEntity = new EventEntity();
         eventEntity.setDescription(eventModel.getDescription());
         eventEntity.setLabel(eventModel.getLabel());
         eventEntity.setStartDate(eventModel.getStartDate());
         eventEntity.setEndDate(eventModel.getEndDate());
-        eventService.create(eventEntity);
+
+        return new ResponseEntity<>(new EventModel(eventService.create(eventEntity)), HttpStatus.OK);
     }
 
 }
