@@ -111,25 +111,25 @@ export default {
       <v-col cols="12">
         <v-sheet height="64">
           <v-toolbar flat>
-            <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
+            <v-btn text class="mr-4 btn-kumojin-style" @click="setToday">
               Today
             </v-btn>
-            <v-btn fab text small color="grey darken-2" @click="prev">
+            <v-btn fab text small class="mr-4 btn-kumojin-style" @click="prev">
               <v-icon small> mdi-chevron-left</v-icon>
             </v-btn>
-            <v-btn fab text small color="grey darken-2" @click="next">
+            <v-btn fab text small class="mr-4 btn-kumojin-style" @click="next">
               <v-icon small> mdi-chevron-right</v-icon>
             </v-btn>
             <v-toolbar-title v-if="$refs.calendar">
               {{ $refs.calendar.title }}
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn outlined class="mr-4" color="grey darken-2" @click="$refs.createEventDialog.showDialog()">
+            <v-btn text class="mr-4 btn-kumojin-style" @click="$refs.createEventDialog.showDialog()">
               Create an event
             </v-btn>
             <v-menu bottom right>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
+                <v-btn text class="btn-kumojin-style" v-bind="attrs" v-on="on">
                   <span>{{ typeToLabel[type] }}</span>
                   <v-icon right> mdi-menu-down</v-icon>
                 </v-btn>
