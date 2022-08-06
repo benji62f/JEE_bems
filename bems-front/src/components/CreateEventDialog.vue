@@ -9,7 +9,7 @@ export default {
     description: "",
     startDate: "",
     endDate: "",
-    disableSubmitBtn: true,
+    errorOnDateValues: true,
     eventLabelMaxLength: 32,
     eventDescriptionMaxLength: 150,
   }),
@@ -41,6 +41,11 @@ export default {
             });
           }
         });
+    },
+    checkDateFields() {
+      const startValue = new Date(document.getElementById("startDateInput").value);
+      const endValue = new Date(document.getElementById("endDateInput").value);
+      this.errorOnDateValues = endValue <= startValue;
     },
   },
   mounted() {
@@ -79,7 +84,7 @@ export default {
                   </v-row>
                   <v-row>
                     <v-col cols="12">
-                      <input type="datetime-local" required v-model="startDate" />
+                      <input type="datetime-local" required id="startDateInput" v-model="startDate" @change="checkDateFields" />
                     </v-col>
                   </v-row>
                 </v-col>
@@ -91,9 +96,12 @@ export default {
                   </v-row>
                   <v-row>
                     <v-col cols="12">
-                      <input type="datetime-local" required v-model="endDate" />
+                      <input type="datetime-local" required id="endDateInput" v-model="endDate" @change="checkDateFields" />
                     </v-col>
                   </v-row>
+                </v-col>
+                <v-col cols="12">
+                  <small v-if="errorOnDateValues" style="color: red">End date must be after start date.</small>
                 </v-col>
               </v-row>
             </v-container>
@@ -104,7 +112,7 @@ export default {
             <v-btn color="blue darken-1" text @click="dialog = false">
               Close
             </v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false" type="submit" :disabled="label === ''">
+            <v-btn color="blue darken-1" text @click="dialog = false" type="submit" :disabled="label === '' || errorOnDateValues">
               Save
             </v-btn>
           </v-card-actions>
