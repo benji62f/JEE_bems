@@ -9,7 +9,8 @@ export default {
     description: "",
     startDate: "",
     endDate: "",
-    disableSubmitBtn: true
+    disableSubmitBtn: true,
+    eventLabelMaxLength: 32,
   }),
   methods: {
     showDialog() {
@@ -30,6 +31,8 @@ export default {
   mounted() {
     this.dialog = false;
     this.startDate = this.endDate = moment(new Date()).format("YYYY-MM-DDTHH:mm");
+    const eventLabelMaxLength = import.meta.env.VITE_EVENT_LABEL_MAX_LENGTH;
+    if (eventLabelMaxLength) this.eventLabelMaxLength = eventLabelMaxLength;
   }
 };
 </script>
@@ -46,10 +49,10 @@ export default {
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field label="Label*" required v-model="label"></v-text-field>
+                  <v-text-field label="Label*" required v-model="label" :maxlength="eventLabelMaxLength" outlined counter></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-textarea label="Description" rows="3" v-model="description"></v-textarea>
+                  <v-textarea label="Description" rows="3" v-model="description" outlined></v-textarea>
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-row>

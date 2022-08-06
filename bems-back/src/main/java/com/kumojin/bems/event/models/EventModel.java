@@ -4,6 +4,7 @@ import com.kumojin.bems.event.entities.EventEntity;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class EventModel {
@@ -11,6 +12,7 @@ public class EventModel {
     private final Long id;
 
     @NotBlank(message = "label is mandatory")
+    @Size(max = 32, message = "{validation.name.size.too_long}")
     private final String label;
 
     private final String description;
