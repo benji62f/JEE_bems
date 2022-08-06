@@ -194,7 +194,7 @@ export default {
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="secondary" @click="selectedOpen = false">
-                  Cancel
+                  Close
                 </v-btn>
               </v-card-actions>
             </v-card>
