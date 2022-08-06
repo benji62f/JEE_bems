@@ -33,7 +33,7 @@ export default {
             this.$parent.events.push({
               id: response.data.id,
               name: response.data.label,
-              details: response.data.details,
+              details: response.data.description,
               start: new Date(response.data.startDate),
               end: new Date(response.data.endDate),
               color: this.$parent.colors[this.$parent.rnd(0, this.$parent.colors.length - 1)],
