@@ -26,4 +26,8 @@ public class EventService {
     public void create(EventEntity eventEntity) {
         this.eventRepository.save(eventEntity);
     }
+
+    public void delete(EventEntity eventEntity) {
+        this.eventRepository.delete(eventEntity);
+    }
 }

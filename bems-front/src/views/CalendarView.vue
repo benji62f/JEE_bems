@@ -74,6 +74,7 @@ export default {
         .then((response) => {
           response.data.forEach((event) => {
             events.push({
+              id: event.id,
               name: event.label,
               details: event.description,
               start: new Date(event.startDate),
@@ -83,6 +84,18 @@ export default {
             });
           });
           this.events = events;
+        });
+    },
+    deleteEvent(id) {
+      axios
+        .post(`${import.meta.env.VITE_BEMS_API_URL}/api/events/${id}/delete`)
+        .then((response) => {
+          if (response.status === 200) {
+            this.events = this.events.filter(function (value, index, arr) {
+              return value.id !== id;
+            });
+            this.selectedOpen = false;
+          }
         });
     },
     rnd(a, b) {
@@ -165,7 +178,7 @@ export default {
                 <v-btn icon>
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn icon>
+                <v-btn icon @click="deleteEvent(selectedEvent.id)">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-toolbar>

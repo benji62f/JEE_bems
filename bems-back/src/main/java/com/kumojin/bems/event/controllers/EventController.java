@@ -45,6 +45,17 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+    public ResponseEntity<EventModel> deleteEvent(@PathVariable("id") Long id) {
+        EventEntity eventEntity = eventService.findById(id).orElse(null);
+        if (eventEntity != null) {
+            eventService.delete(eventEntity);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {"application/json"})
     public void postEvent(@Valid @RequestBody EventModel eventModel) {
         EventEntity eventEntity = new EventEntity();
