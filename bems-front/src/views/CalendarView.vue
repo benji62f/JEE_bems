@@ -11,12 +11,13 @@ export default {
       month: "Month",
       week: "Week",
       day: "Day",
-      "4day": "4 Days"
+      "4day": "4 Days",
     },
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
     events: [],
+    errorMessage: "",
   }),
   mounted() {
     this.$refs.calendar.checkChange();
@@ -63,18 +64,26 @@ export default {
           `${import.meta.env.VITE_BEMS_API_URL}/api/events?start=${start.date}T00:00:00&end=${end.date}T23:59:59`
         )
         .then((response) => {
-          response.data.forEach((event) => {
-            events.push({
-              id: event.id,
-              name: event.label,
-              details: event.description,
-              start: new Date(event.startDate),
-              end: new Date(event.endDate),
-              color: event.color,
-              timed: true,
+          if (response.status === 200) {
+            response.data.forEach((event) => {
+              events.push({
+                id: event.id,
+                name: event.label,
+                details: event.description,
+                start: new Date(event.startDate),
+                end: new Date(event.endDate),
+                color: event.color,
+                timed: true
+              });
             });
-          });
-          this.events = events;
+            this.events = events;
+            this.errorMessage = "";
+            return;
+          }
+          this.errorMessage = `Error ${response.status}`;
+        })
+        .catch((error) => {
+          this.errorMessage = error.message;
         });
     },
     deleteEvent(id) {
@@ -86,7 +95,13 @@ export default {
               return value.id !== id;
             });
             this.selectedOpen = false;
+            this.errorMessage = "";
+            return;
           }
+          this.errorMessage = `Error ${response.status}`;
+        })
+        .catch((error) => {
+          this.errorMessage = error.message;
         });
     },
   },
@@ -96,6 +111,15 @@ export default {
 <template>
   <v-container>
     <v-row class="fill-height" justify="center">
+      <v-col cols="12" v-if="errorMessage">
+        <v-alert
+          color="pink darken-1"
+          dark
+          class="mt-10"
+        >
+          {{ errorMessage }}
+        </v-alert>
+      </v-col>
       <v-col cols="12">
         <v-sheet height="64">
           <v-toolbar flat>

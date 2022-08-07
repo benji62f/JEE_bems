@@ -23,6 +23,7 @@ export default {
       "orange",
       "grey darken-1",
     ],
+    errorMessage: "",
   }),
   methods: {
     clearFields() {
@@ -35,6 +36,7 @@ export default {
         colorBtns[i].classList.remove("btn-color-selected");
       }
       this.eventColor = "grey darken-1";
+      this.errorMessage = "";
     },
     showDialog(event) {
       this.clearFields();
@@ -65,7 +67,14 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.putEventInCalendar(response.data);
+            this.dialog = false;
+            this.errorMessage = "";
+            return;
           }
+          this.errorMessage = `Error ${response.status}`;
+        })
+        .catch((error) => {
+          this.errorMessage = error.message;
         });
     },
     checkDateFields() {
@@ -118,6 +127,14 @@ export default {
           <v-card-text>
             <v-container>
               <v-row>
+                <v-col cols="12" v-if="errorMessage">
+                  <v-alert
+                    color="pink darken-1"
+                    dark
+                  >
+                    {{ errorMessage }}
+                  </v-alert>
+                </v-col>
                 <v-col cols="12">
                   <v-text-field label="Label*" required v-model="label" :maxlength="eventLabelMaxLength" outlined counter></v-text-field>
                 </v-col>
@@ -182,7 +199,7 @@ export default {
             <v-btn color="blue darken-1" text @click="dialog = false">
               Close
             </v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false" type="submit" :disabled="label === '' || errorOnDateValues">
+            <v-btn color="blue darken-1" text type="submit" :disabled="label === '' || errorOnDateValues">
               Save
             </v-btn>
           </v-card-actions>
