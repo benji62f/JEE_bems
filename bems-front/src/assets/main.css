@@ -1,22 +1,36 @@
 @import "./base.css";
 
 body {
+  display: flex;
+  place-items: center;
   background-color: #213a45;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 2rem;
+}
+
+.v-application.transparent {
+  background: transparent !important;
 }
 
 .v-application--wrap {
   min-height: unset;
 }
 
-#app {
-  padding: 2rem;
-  margin: 0 auto 0;
+.v-app-bar {
+  height: unset !important;
+}
 
-  font-weight: normal;
+.v-main {
+  padding: 0 !important;
 }
 
 .container {
   max-width: none;
+  padding: 0;
 }
 
 a,
@@ -30,68 +44,6 @@ a,
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-}
-
-#site-header, #site-header svg {
-  transition: all .25s cubic-bezier(.43,.42,.56,1);
-}
-
-#site-header {
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #fff;
-  z-index: 10;
-  transform: translateY(0);
-}
-
-#site-header .container-left {
-  margin-left: auto;
-  padding-right: 20px;
-  padding-left: calc((100vw - 1180px) /2);
-}
-
-#main-menu {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 21px 0;
-  position: relative;
-}
-
-#main-menu .header-logo {
-  transform: translateY(-3.5px);
-  position: relative;
-  z-index: 2;
-}
-
-#main-menu .header-logo svg {
-  transition-delay: 0s;
-  width: 195px;
-}
-
-#site-header svg {
-  display: block;
-  filter: brightness(1);
 }
 
 .v-btn.btn-kumojin-style {

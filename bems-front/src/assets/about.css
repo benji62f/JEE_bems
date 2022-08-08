@@ -1,0 +1,26 @@
+section#home {
+    text-align: center;
+}
+
+section#home > .content h1 {
+    font-size: 4em;
+    margin-bottom: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+section#home > .content h2 {
+    font-size: 2em;
+    font-weight: 300;
+    margin-bottom: 30px;
+    color: #5fe2dc;
+    text-decoration: none;
+}
+
+section#home .logo > img {
+    width: 200px;
+}
+
+section#home button {
+    font-size: 2em;
+}
