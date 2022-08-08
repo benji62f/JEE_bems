@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ControllerAdvice
@@ -19,7 +20,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
         List<String> details = new ArrayList<>();
-        details.add(ex.getLocalizedMessage());
+        details.add(Arrays.toString(ex.getStackTrace()));
         ErrorResponse error = new ErrorResponse("Server Error", details);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
