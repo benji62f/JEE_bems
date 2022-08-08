@@ -26,7 +26,7 @@ public class EventController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<EventModel>> getEvents(@RequestParam("start") String start, @RequestParam("end") String end) throws ParseException {
         List<EventModel> eventModels = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         Date startDate = dateFormat.parse(start);
         Date endDate = dateFormat.parse(end);
         for (EventEntity eventEntity : eventService.findByStartDateOrEndDateBetween(startDate, endDate)) {
@@ -81,7 +81,7 @@ public class EventController {
         eventEntity.setEndDate(eventModel.getEndDate());
         eventEntity.setColor(eventModel.getColor());
 
-        return new ResponseEntity<>(new EventModel(eventService.save(eventEntity)), HttpStatus.OK);
+        return new ResponseEntity<>(new EventModel(eventService.save(eventEntity)), HttpStatus.CREATED);
     }
 
 }

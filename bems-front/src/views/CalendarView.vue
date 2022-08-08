@@ -1,6 +1,7 @@
 <script>
 import axios from "axios";
 import CreateEventDialog from "@/components/CreateEventDialog.vue";
+import moment from "moment-timezone";
 
 export default {
   components: { CreateEventDialog },
@@ -59,9 +60,10 @@ export default {
     },
     updateRange({ start, end }) {
       const events = [];
+      const tz = encodeURIComponent(moment().format("Z"));
       axios
         .get(
-          `${import.meta.env.VITE_BEMS_API_URL}/api/events?start=${start.date}T00:00:00&end=${end.date}T23:59:59`
+          `${import.meta.env.VITE_BEMS_API_URL}/api/events?start=${start.date}T00:00:00.000${tz}&end=${end.date}T23:59:59.000${tz}`
         )
         .then((response) => {
           if (response.status === 200) {

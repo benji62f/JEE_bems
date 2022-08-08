@@ -65,7 +65,7 @@ export default {
       axios
         .post(`${import.meta.env.VITE_BEMS_API_URL}/api/events${this.eventId ? `/${this.eventId}/edit` : ""}`, data)
         .then((response) => {
-          if (response.status === 200) {
+          if (response.status === 200 || response.status === 201) {
             this.putEventInCalendar(response.data);
             this.dialog = false;
             this.errorMessage = "";
