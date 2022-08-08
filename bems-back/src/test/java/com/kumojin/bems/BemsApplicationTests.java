@@ -139,6 +139,44 @@ class BemsApplicationTests {
     }
 
     @Test
+    public void test_events_get_ok() throws Exception {
+        String startDateString = "2022-08-03T08:25:30.183+00:00";
+        String endDateString = "2022-08-04T16:25:30.183+00:00";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date startDate = dateFormat.parse(startDateString);
+        Date endDate = dateFormat.parse(endDateString);
+
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.setId(1L);
+        eventEntity.setLabel("Réunion Kumojin");
+        eventEntity.setDescription("Réunion client XYZ : démarrage de projet.");
+        eventEntity.setStartDate(startDate);
+        eventEntity.setEndDate(endDate);
+        eventEntity.setColor("deep-purple");
+
+        Mockito.when(eventService.findById(1L)).thenReturn(Optional.of(eventEntity));
+
+        mockMvc.perform(get("/api/events/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.label").value("Réunion Kumojin"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Réunion client XYZ : démarrage de projet."))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value(startDateString))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.endDate").value(endDateString))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.color").value("deep-purple"))
+        ;
+    }
+
+    @Test
+    public void test_events_get_404() throws Exception {
+        mockMvc.perform(get("/api/events/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(404));
+    }
+
+    @Test
     public void test_events_delete_ok() throws Exception {
         String startDateString = "2022-08-03T08:25:30.183+00:00";
         String endDateString = "2022-08-04T16:25:30.183+00:00";
