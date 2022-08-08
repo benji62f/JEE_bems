@@ -45,8 +45,8 @@ class BemsApplicationTests {
     }
 
     @Test
-    public void test_events_post_ok() throws Exception {
-        // Input data UTC+02
+    public void test_events_edit_ok() throws Exception {
+        // JSON body data
         JsonObject value =
                 Json
                         .createObjectBuilder()
@@ -57,8 +57,180 @@ class BemsApplicationTests {
                         .add("color", "deep-purple")
                         .build();
 
-        // Output data UTC+00
-        String startDateString = "2022-08-03T08:25:30.183+00:00";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+        // Entity before edition
+        String startDateStringInitial = "2022-08-03T10:25:30.183+02:00";
+        String endDateStringInitial = "2022-08-04T18:25:30.183+02:00";
+        Date startDateInitial = dateFormat.parse(startDateStringInitial);
+        Date endDateInitial = dateFormat.parse(endDateStringInitial);
+
+        EventEntity eventEntityInitial = new EventEntity();
+        eventEntityInitial.setId(1L);
+        eventEntityInitial.setLabel("Réunion Kumojin");
+        eventEntityInitial.setDescription("Réunion client XYZ : démarrage de projet.");
+        eventEntityInitial.setStartDate(startDateInitial);
+        eventEntityInitial.setEndDate(endDateInitial);
+        eventEntityInitial.setColor("deep-purple");
+
+        // Entity after edition
+        String startDateStringEdited = "2022-08-03T12:00:30.000+00:00";
+        String endDateStringEdited = "2022-08-04T14:00:30.000+00:00";
+        Date startDateEdited = dateFormat.parse(startDateStringEdited);
+        Date endDateEdited = dateFormat.parse(endDateStringEdited);
+
+        EventEntity eventEntityEdited = new EventEntity();
+        eventEntityEdited.setId(1L);
+        eventEntityEdited.setLabel("Réunion Kumojin edited");
+        eventEntityEdited.setDescription("Réunion client XYZ : démarrage de projet edited.");
+        eventEntityEdited.setStartDate(startDateEdited);
+        eventEntityEdited.setEndDate(endDateEdited);
+        eventEntityEdited.setColor("deep-purple");
+
+        // Mock service
+        Mockito.when(eventService.findById(1L)).thenReturn(Optional.of(eventEntityInitial));
+        Mockito.when(eventService.save(any())).thenReturn(eventEntityEdited);
+
+        // POST request
+        mockMvc
+                .perform(
+                        post("/api/events/1/edit")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(value.toString())
+                )
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.label").value("Réunion Kumojin edited"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Réunion client XYZ : démarrage de projet edited."))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value(startDateStringEdited))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.endDate").value(endDateStringEdited))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.color").value("deep-purple"))
+        ;
+    }
+
+    @Test
+    public void test_events_edit_404() throws Exception {
+        // JSON body data
+        JsonObject value =
+                Json
+                        .createObjectBuilder()
+                        .add("label", "Réunion Kumojin")
+                        .add("description", "Réunion client XYZ : démarrage de projet.")
+                        .add("startDate", "2022-08-03T10:25:30.183+02:00")
+                        .add("endDate", "2022-08-04T18:25:30.183+02:00")
+                        .add("color", "deep-purple")
+                        .build();
+
+        // POST request
+        mockMvc
+                .perform(
+                        post("/api/events/1/edit")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(value.toString())
+                )
+                .andExpect(status().is(404))
+        ;
+    }
+
+    @Test
+    public void test_events_edit_400_label_missing() throws Exception {
+        // JSON body data
+        JsonObject value =
+                Json
+                        .createObjectBuilder()
+                        .add("description", "Réunion client XYZ : démarrage de projet.")
+                        .add("startDate", "2022-08-03T10:25:30.183+02:00")
+                        .add("endDate", "2022-08-04T18:25:30.183+02:00")
+                        .add("color", "deep-purple")
+                        .build();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+        // Entity before edition
+        String startDateStringInitial = "2022-08-03T10:25:30.183+02:00";
+        String endDateStringInitial = "2022-08-04T18:25:30.183+02:00";
+        Date startDateInitial = dateFormat.parse(startDateStringInitial);
+        Date endDateInitial = dateFormat.parse(endDateStringInitial);
+
+        EventEntity eventEntityInitial = new EventEntity();
+        eventEntityInitial.setId(1L);
+        eventEntityInitial.setLabel("Réunion Kumojin");
+        eventEntityInitial.setDescription("Réunion client XYZ : démarrage de projet.");
+        eventEntityInitial.setStartDate(startDateInitial);
+        eventEntityInitial.setEndDate(endDateInitial);
+        eventEntityInitial.setColor("deep-purple");
+
+        // Mock service
+        Mockito.when(eventService.findById(1L)).thenReturn(Optional.of(eventEntityInitial));
+
+        // POST request
+        mockMvc
+                .perform(
+                        post("/api/events/1/edit")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(value.toString())
+                )
+                .andExpect(status().is(400))
+        ;
+    }
+
+    @Test
+    public void test_events_edit_400_color_missing() throws Exception {
+        // JSON body data
+        JsonObject value =
+                Json
+                        .createObjectBuilder()
+                        .add("label", "Réunion Kumojin")
+                        .add("description", "Réunion client XYZ : démarrage de projet.")
+                        .add("startDate", "2022-08-03T10:25:30.183+02:00")
+                        .add("endDate", "2022-08-04T18:25:30.183+02:00")
+                        .build();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+        // Entity before edition
+        String startDateStringInitial = "2022-08-03T10:25:30.183+02:00";
+        String endDateStringInitial = "2022-08-04T18:25:30.183+02:00";
+        Date startDateInitial = dateFormat.parse(startDateStringInitial);
+        Date endDateInitial = dateFormat.parse(endDateStringInitial);
+
+        EventEntity eventEntityInitial = new EventEntity();
+        eventEntityInitial.setId(1L);
+        eventEntityInitial.setLabel("Réunion Kumojin");
+        eventEntityInitial.setDescription("Réunion client XYZ : démarrage de projet.");
+        eventEntityInitial.setStartDate(startDateInitial);
+        eventEntityInitial.setEndDate(endDateInitial);
+        eventEntityInitial.setColor("deep-purple");
+
+        // Mock service
+        Mockito.when(eventService.findById(1L)).thenReturn(Optional.of(eventEntityInitial));
+
+        // POST request
+        mockMvc
+                .perform(
+                        post("/api/events/1/edit")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(value.toString())
+                )
+                .andExpect(status().is(400))
+        ;
+    }
+
+    @Test
+    public void test_events_post_ok() throws Exception {
+        // JSON body data
+        JsonObject value =
+                Json
+                        .createObjectBuilder()
+                        .add("label", "Réunion Kumojin")
+                        .add("description", "Réunion client XYZ : démarrage de projet.")
+                        .add("startDate", "2022-08-03T10:25:30.183+02:00") // UTC+02:00
+                        .add("endDate", "2022-08-04T18:25:30.183+02:00")
+                        .add("color", "deep-purple")
+                        .build();
+
+        // API response
+        String startDateString = "2022-08-03T08:25:30.183+00:00"; // UTC+00:00
         String endDateString = "2022-08-04T16:25:30.183+00:00";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         Date startDate = dateFormat.parse(startDateString);
@@ -94,7 +266,7 @@ class BemsApplicationTests {
 
     @Test
     public void test_events_post_400_label_missing() throws Exception {
-        // Input data UTC+02
+        // JSON body data
         JsonObject value =
                 Json
                         .createObjectBuilder()
@@ -117,7 +289,7 @@ class BemsApplicationTests {
 
     @Test
     public void test_events_post_400_color_missing() throws Exception {
-        // Input data UTC+02
+        // JSON body data
         JsonObject value =
                 Json
                         .createObjectBuilder()
