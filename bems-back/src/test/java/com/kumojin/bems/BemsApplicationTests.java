@@ -45,6 +45,30 @@ class BemsApplicationTests {
     }
 
     @Test
+    public void test_events_list_400_start_date_missing() throws Exception {
+        mockMvc.perform(get("/api/events?start=2022-08-01T00:00:00.183+02:00"))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    public void test_events_list_400_end_date_missing() throws Exception {
+        mockMvc.perform(get("/api/events?end=2023-08-31T23:59:59.183+02:00"))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    public void test_events_list_400_start_date_malformed() throws Exception {
+        mockMvc.perform(get("/api/events?start=2022-08-01T00:00:00.183&end=2023-08-31T23:59:59.183+02:00"))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    public void test_events_list_400_end_date_malformed() throws Exception {
+        mockMvc.perform(get("/api/events?start=2022-08-01T00:00:00.183+02:00&end=2023-08-31T23:59:59.183"))
+                .andExpect(status().is(400));
+    }
+
+    @Test
     public void test_events_edit_ok() throws Exception {
         // JSON body data
         JsonObject value =
