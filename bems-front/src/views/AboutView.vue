@@ -1,16 +1,6 @@
 <script>
 export default {
   name: "AboutView",
-  mounted() {
-    document
-      .getElementsByClassName("v-application")[0]
-      .classList.add("transparent");
-  },
-  destroyed() {
-    document
-      .getElementsByClassName("v-application")[0]
-      .classList.remove("transparent");
-  },
 };
 </script>
 

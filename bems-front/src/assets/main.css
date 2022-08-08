@@ -9,10 +9,9 @@ body {
 #app {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding: 0 2rem;
 }
 
-.v-application.transparent {
+.v-application {
   background: transparent !important;
 }
 
@@ -20,17 +19,12 @@ body {
   min-height: unset;
 }
 
-.v-app-bar {
-  height: unset !important;
-}
-
-.v-main {
-  padding: 0 !important;
-}
-
 .container {
   max-width: none;
-  padding: 0;
+}
+
+.container-white {
+  background: white;
 }
 
 a,

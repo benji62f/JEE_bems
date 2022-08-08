@@ -111,7 +111,7 @@ export default {
 </script>
 
 <template>
-  <v-container>
+  <v-container class="container-white">
     <v-row class="fill-height" justify="center">
       <v-col cols="12" v-if="errorMessage">
         <v-alert
