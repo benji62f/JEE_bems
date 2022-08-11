@@ -29,3 +29,9 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Run tests
+
+```sh
+npm run cypress:run
+```
