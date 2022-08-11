@@ -80,7 +80,7 @@
     transition: color .25s cubic-bezier(.43,.42,.56,1);
 }
 
-#main-menu ul.nav li a:hover {
+#main-menu ul.nav li a:hover, #main-menu ul.nav li a.router-link-exact-active.router-link-active {
     color: #e93b6f;
     background-color: transparent;
 }
