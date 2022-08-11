@@ -136,10 +136,10 @@ export default {
                   </v-alert>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field label="Label*" required v-model="label" :maxlength="eventLabelMaxLength" outlined counter></v-text-field>
+                  <v-text-field label="Label*" required id="labelInput" v-model="label" :maxlength="eventLabelMaxLength" outlined counter></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-textarea label="Description" rows="3" v-model="description" :maxlength="eventDescriptionMaxLength" outlined counter></v-textarea>
+                  <v-textarea label="Description" rows="3" id="descriptionInput" v-model="description" :maxlength="eventDescriptionMaxLength" outlined counter></v-textarea>
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-row>

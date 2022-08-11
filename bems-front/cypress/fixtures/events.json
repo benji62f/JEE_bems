@@ -1,0 +1,34 @@
+[
+  {
+    "id": 2,
+    "label": "Réunion Kumojin",
+    "description": "Démarrage projet client XYZ.",
+    "startDate": "2022-08-12T12:00:00.000+00:00",
+    "endDate": "2022-08-12T12:30:00.000+00:00",
+    "color": "deep-purple"
+  },
+  {
+    "id": 3,
+    "label": "Démo projet ABC",
+    "description": "Démo pour toutes les BU + planification du sprint suivant.",
+    "startDate": "2022-08-15T13:00:00.000+00:00",
+    "endDate": "2022-08-15T15:00:00.000+00:00",
+    "color": "orange"
+  },
+  {
+    "id": 4,
+    "label": "Sprint #5",
+    "description": "Projet EFG : géolocalisation utilisateur + personnalisation de l'expérience de navigation en conséquence.",
+    "startDate": "2022-08-22T07:00:00.000+00:00",
+    "endDate": "2022-08-26T15:00:00.000+00:00",
+    "color": "grey darken-1"
+  },
+  {
+    "id": 5,
+    "label": "Weekend à Bruxelles",
+    "description": "",
+    "startDate": "2022-08-20T07:00:00.000+00:00",
+    "endDate": "2022-08-21T21:00:00.000+00:00",
+    "color": "cyan"
+  }
+]
