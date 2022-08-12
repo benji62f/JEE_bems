@@ -6,6 +6,8 @@
 
 Fill the `src/main/resources/application.properties` file with your own configuration.
 
+__NB:__ put the `bems-front` host's url in `cors.urls` to authorize it on the API.
+
 ### Install dependencies
 
 ```sh
