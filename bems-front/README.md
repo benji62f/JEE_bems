@@ -29,7 +29,13 @@ npm run build
 Fill the `cypress.config.ts` file with the `bems-front`'s URL in `baseUrl`.
 
 ```sh
+# CLI
 npm run cypress:run
+
+# GUI
+npm run cypress:open
+# then select a browser and click on "Start E2E Testing"
+# then click on a file to execute tests
 ```
 
 __NB:__ `bems-back` API and `bems-front` must be running when the tests start.
