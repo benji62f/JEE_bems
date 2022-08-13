@@ -32,7 +32,7 @@ Fill the `cypress.config.ts` file with the `bems-front`'s URL in `baseUrl`.
 npm run cypress:run
 ```
 
-__NB:__ `bems-back` API must be running when the tests start.
+__NB:__ `bems-back` API and `bems-front` must be running when the tests start.
 
 ## Lint with [ESLint](https://eslint.org/)
 
