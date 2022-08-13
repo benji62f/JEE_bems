@@ -20,7 +20,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-### Run tests
+## Run tests
 
 ```sh
 mvn test
